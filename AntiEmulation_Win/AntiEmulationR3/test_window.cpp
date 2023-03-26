@@ -31,7 +31,7 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 window::window(std::string name, std::string winclass){
 	WRegisterClass(winclass);
 
-	wnd = CreateWindowA(winclass.c_str(), name.c_str(), WS_OVERLAPPEDWINDOW,CW_USEDEFAULT,
+	wnd = CreateWindowExA(0, winclass.c_str(), NULL, WS_OVERLAPPEDWINDOW,CW_USEDEFAULT,
 		CW_USEDEFAULT, CW_USEDEFAULT, CW_USEDEFAULT, nullptr, nullptr, GetModuleHandle(0), nullptr);
 
 	ShowWindow(wnd, SW_SHOW);

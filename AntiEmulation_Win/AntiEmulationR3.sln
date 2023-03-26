@@ -7,6 +7,8 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "AntiEmulationR3", "AntiEmul
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "SendInput", "SendInput\SendInput.vcxproj", "{EF23B73A-1500-4CB4-BF0A-0DFB6B8C81C3}"
 EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "SendMessage", "SendMessage\SendMessage.vcxproj", "{40223D21-1F40-4A81-9614-EEB3252A9176}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|x64 = Debug|x64
@@ -31,6 +33,14 @@ Global
 		{EF23B73A-1500-4CB4-BF0A-0DFB6B8C81C3}.Release|x64.Build.0 = Release|x64
 		{EF23B73A-1500-4CB4-BF0A-0DFB6B8C81C3}.Release|x86.ActiveCfg = Release|Win32
 		{EF23B73A-1500-4CB4-BF0A-0DFB6B8C81C3}.Release|x86.Build.0 = Release|Win32
+		{40223D21-1F40-4A81-9614-EEB3252A9176}.Debug|x64.ActiveCfg = Debug|x64
+		{40223D21-1F40-4A81-9614-EEB3252A9176}.Debug|x64.Build.0 = Debug|x64
+		{40223D21-1F40-4A81-9614-EEB3252A9176}.Debug|x86.ActiveCfg = Debug|Win32
+		{40223D21-1F40-4A81-9614-EEB3252A9176}.Debug|x86.Build.0 = Debug|Win32
+		{40223D21-1F40-4A81-9614-EEB3252A9176}.Release|x64.ActiveCfg = Release|x64
+		{40223D21-1F40-4A81-9614-EEB3252A9176}.Release|x64.Build.0 = Release|x64
+		{40223D21-1F40-4A81-9614-EEB3252A9176}.Release|x86.ActiveCfg = Release|Win32
+		{40223D21-1F40-4A81-9614-EEB3252A9176}.Release|x86.Build.0 = Release|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

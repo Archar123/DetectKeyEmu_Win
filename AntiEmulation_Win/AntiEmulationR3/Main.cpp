@@ -17,7 +17,7 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
 	}
 
 	InstallHook();
-	window* main_window = new window("TestGame", "Game_Class");
+	window* main_window = new window(std::string("TestGame"), std::string("Game_Class"));
 
 	if (main_window->getSelfHandle())
 	{
