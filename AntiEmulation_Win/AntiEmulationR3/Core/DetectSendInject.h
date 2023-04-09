@@ -47,3 +47,8 @@ void InstallHook()
 		MessageBox(NULL, L"failed to install hook", L"fail", MB_ICONERROR);
 	}
 }
+
+void UnstallHook()
+{
+	BOOL ret = UnhookWindowsHookEx(hook);
+}

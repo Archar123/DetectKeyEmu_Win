@@ -26,7 +26,7 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
 		main_window->onMessage();
 		anti_cheat->unprotectHWND();
 	}
-
+	UnstallHook();
 	delete main_window;
 	return 0;
 }
