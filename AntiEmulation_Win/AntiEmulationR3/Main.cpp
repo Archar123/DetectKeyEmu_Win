@@ -30,3 +30,43 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
 	delete main_window;
 	return 0;
 }
+
+/*
+
+BOOL GetMessageWithTimeout(MSG& msg, UINT to)
+{
+	BOOL res;
+	UINT_PTR timerId = SetTimer(NULL, NULL, to, NULL);
+	res = GetMessage(&msg, NULL, 0, 0);
+	KillTimer(NULL, timerId);
+	if (!res)
+		return FALSE;
+	if (msg.message == WM_TIMER && msg.hwnd == NULL && msg.wParam == timerId)
+		return FALSE;
+	return TRUE;
+}
+
+void DoCheck(int time)
+{
+	InstallHook();
+
+	MSG msg = { 0 };
+	while (GetMessageWithTimeout(msg, time))
+	{
+	if (msg.message == WM_TIMER)
+	{
+		DispatchMessage(&msg);
+	}
+	else if (msg.message == WM_CLOSE || msg.message == WM_DESTROY)
+	{
+		util::Flogf("Daemon Thread Exist.");
+		break;
+	}
+	}
+
+	UnstallHook();
+
+	DoCheck(time);
+}
+
+ */
