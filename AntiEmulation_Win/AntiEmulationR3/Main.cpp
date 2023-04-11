@@ -21,10 +21,10 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
 
 	if (main_window->getSelfHandle())
 	{
-		bool ret = anti_cheat->protectHWND(main_window->getSelfHandle());
-		printf("protectHWND = %d\n", ret);
+		//bool ret = anti_cheat->protectHWND(main_window->getSelfHandle());
+		//printf("protectHWND = %d\n", ret);
 		main_window->onMessage();
-		anti_cheat->unprotectHWND();
+		//anti_cheat->unprotectHWND();
 	}
 	UnstallHook();
 	delete main_window;

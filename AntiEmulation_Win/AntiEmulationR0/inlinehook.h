@@ -137,7 +137,7 @@ bool inline_hook(PVOID dest, PVOID src, PVOID* original)
 	}
 
 	BYTE jmp[] = { 0xFF, 0x25, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, };
-	PVOID copy = ExAllocatePool(NonPagedPool, length + sizeof(jmp));
+	PVOID copy = ExAllocatePoolWithTag(NonPagedPool, length + sizeof(jmp), 'xxxx');
 
 	if (copy)
 	{

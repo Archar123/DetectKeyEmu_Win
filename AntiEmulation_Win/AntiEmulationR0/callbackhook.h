@@ -23,3 +23,9 @@ NTSTATUS init_hook()
 
 	return b_result ? STATUS_SUCCESS : STATUS_UNSUCCESSFUL;
 }
+
+NTSTATUS uninit_hook()
+{
+	bool b_result = inline_unhook(h_MouseClassServiceCallback, (void*)&o_MouseClassServiceCallback);
+	return b_result ? STATUS_SUCCESS : STATUS_UNSUCCESSFUL;
+}

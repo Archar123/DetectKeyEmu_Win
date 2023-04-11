@@ -11,6 +11,8 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "SendMessage", "SendMessage\
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "AntiEmulationR0", "AntiEmulationR0\AntiEmulationR0.vcxproj", "{04E29BC4-8DEA-4DD3-AFDD-A1AFC02985A2}"
 EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "RecordPlayMsg", "RecordPlayMsg\RecordPlayMsg.vcxproj", "{CC291010-B786-4677-8A77-507E636AFDB5}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|ARM = Debug|ARM
@@ -83,6 +85,18 @@ Global
 		{04E29BC4-8DEA-4DD3-AFDD-A1AFC02985A2}.Release|x86.ActiveCfg = Release|Win32
 		{04E29BC4-8DEA-4DD3-AFDD-A1AFC02985A2}.Release|x86.Build.0 = Release|Win32
 		{04E29BC4-8DEA-4DD3-AFDD-A1AFC02985A2}.Release|x86.Deploy.0 = Release|Win32
+		{CC291010-B786-4677-8A77-507E636AFDB5}.Debug|ARM.ActiveCfg = Debug|Win32
+		{CC291010-B786-4677-8A77-507E636AFDB5}.Debug|ARM64.ActiveCfg = Debug|Win32
+		{CC291010-B786-4677-8A77-507E636AFDB5}.Debug|x64.ActiveCfg = Debug|x64
+		{CC291010-B786-4677-8A77-507E636AFDB5}.Debug|x64.Build.0 = Debug|x64
+		{CC291010-B786-4677-8A77-507E636AFDB5}.Debug|x86.ActiveCfg = Debug|Win32
+		{CC291010-B786-4677-8A77-507E636AFDB5}.Debug|x86.Build.0 = Debug|Win32
+		{CC291010-B786-4677-8A77-507E636AFDB5}.Release|ARM.ActiveCfg = Release|Win32
+		{CC291010-B786-4677-8A77-507E636AFDB5}.Release|ARM64.ActiveCfg = Release|Win32
+		{CC291010-B786-4677-8A77-507E636AFDB5}.Release|x64.ActiveCfg = Release|x64
+		{CC291010-B786-4677-8A77-507E636AFDB5}.Release|x64.Build.0 = Release|x64
+		{CC291010-B786-4677-8A77-507E636AFDB5}.Release|x86.ActiveCfg = Release|Win32
+		{CC291010-B786-4677-8A77-507E636AFDB5}.Release|x86.Build.0 = Release|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
