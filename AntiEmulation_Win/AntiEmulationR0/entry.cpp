@@ -108,7 +108,7 @@ QWORD MouseClassServiceCallbackHook(
 		{
 			QWORD thread = (QWORD)PsGetCurrentThread();
 			QWORD host_process = *(QWORD*)(thread + 0x220);
-			DbgPrintEx(DPFLTR_IHVDRIVER_ID, DPFLTR_ERROR_LEVEL, "[%s][%ld] Thread is manipulating mouse [%llx]\n",
+			DbgPrintEx(DPFLTR_IHVDRIVER_ID, DPFLTR_ERROR_LEVEL, "[Anti][%s][%ld] Thread is manipulating mouse [%llx]\n",
 				PsGetProcessImageFileName((PEPROCESS)host_process),
 				(DWORD)(QWORD)PsGetThreadId((PETHREAD)thread),
 				thread
@@ -122,6 +122,15 @@ QWORD MouseClassServiceCallbackHook(
 		InputDataConsumed);
 }
 
+
+void NtSleep(DWORD milliseconds)
+{
+	QWORD ms = milliseconds;
+	ms = (ms * 1000) * 10;
+	ms = ms * -1;
+	KeDelayExecutionThread(KernelMode, 0, (PLARGE_INTEGER)&ms);
+}
+
 VOID
 DriverUnload(
 	_In_ struct _DRIVER_OBJECT* DriverObject)
@@ -130,7 +139,8 @@ DriverUnload(
 
 	mouse_unhook();
 
-	DbgPrintEx(DPFLTR_IHVDRIVER_ID, DPFLTR_ERROR_LEVEL, "[+] Anti-Cheat.sys is closed\n");
+	NtSleep(1000);
+	DbgPrintEx(DPFLTR_IHVDRIVER_ID, DPFLTR_ERROR_LEVEL, "[Anti][+] Anti-Cheat.sys is closed\n");
 }
 
 extern "C"
@@ -179,6 +189,26 @@ QWORD GetModuleHandle(PWCH module_name, QWORD* SizeOfImage)
 		}
 	}
 	return 0;
+}
+
+
+BOOL IsInValidModuleRange(QWORD address)
+{
+	PLDR_DATA_TABLE_ENTRY ldr = (PLDR_DATA_TABLE_ENTRY)gDriverObject->DriverSection;
+	for (PLIST_ENTRY pListEntry = ldr->InLoadOrderLinks.Flink; pListEntry != &ldr->InLoadOrderLinks; pListEntry = pListEntry->Flink)
+	{
+		PLDR_DATA_TABLE_ENTRY pEntry = CONTAINING_RECORD(pListEntry, LDR_DATA_TABLE_ENTRY, InLoadOrderLinks);
+		if (pEntry->ImageBase == 0)
+			continue;
+
+		if (address >= (QWORD)pEntry->ImageBase && address <= (QWORD)((QWORD)pEntry->ImageBase + pEntry->SizeOfImage + 0x1000))
+		{
+			DbgPrintEx(DPFLTR_IHVDRIVER_ID, DPFLTR_ERROR_LEVEL, "[Anti][*] InModule= %wZ\n", pEntry->BaseImageName);
+			return TRUE;
+		}
+	}
+
+	return FALSE;
 }
 
 BOOL mouse_hook(void)
@@ -237,7 +267,7 @@ BOOL mouse_hook(void)
 					{
 						gMouseObject.service_callback = (MouseClassServiceCallbackFn)(device_extension[i + 1]);
 						callback_addr = &(device_extension[i + 1]);
-						DbgPrintEx(DPFLTR_IHVDRIVER_ID, DPFLTR_ERROR_LEVEL, "[+] callback_addr = %p, gMouseObject.service_callback = %p\n",
+						DbgPrintEx(DPFLTR_IHVDRIVER_ID, DPFLTR_ERROR_LEVEL, "[Anti][+] callback_pointer_addr = %p, org_service_callback = %p\n",
 							callback_addr, gMouseObject.service_callback);
 						break;
 					}
@@ -267,7 +297,10 @@ BOOL mouse_hook(void)
 		if (gMouseObject.mouse_device && gMouseObject.service_callback)
         {		
 			callback_addr_org = (MouseClassServiceCallbackFn)InterlockedExchangePointer((PVOID*)callback_addr, (void*)MouseClassServiceCallbackHook);
-			DbgPrintEx(DPFLTR_IHVDRIVER_ID, DPFLTR_ERROR_LEVEL, "[*] callback_addr = %p\n", callback_addr);
+			DbgPrintEx(DPFLTR_IHVDRIVER_ID, DPFLTR_ERROR_LEVEL, "[Anti][*] callback_pointer_addr = %p, org_service_callback = %p, current_service_callback = %p\n", 
+				callback_addr, callback_addr_org, MouseClassServiceCallbackHook);
+
+			IsInValidModuleRange((QWORD)callback_addr_org);
 			gMouseObject.hook = 1;
 
 			return 1;
@@ -284,7 +317,25 @@ void mouse_unhook(void)
 {
 	if (gMouseObject.hook)
 	{
-		InterlockedExchangePointer((PVOID*)callback_addr, (void*)callback_addr_org);
 		gMouseObject.hook = 0;
+		//保存的和现在是否一致，如果不一致,判断地址还是否存在，如果不存在就不管了，如果还存在模块，则替换
+		if (callback_addr_org != (MouseClassServiceCallbackFn)((PVOID*)callback_addr))
+		{
+			DbgPrintEx(DPFLTR_IHVDRIVER_ID, DPFLTR_ERROR_LEVEL, "[Anti][!] callback_addr is Modify.org_service_callback=%p, current_service_callback=%p\n",
+				callback_addr_org, (PVOID*)callback_addr);
+
+            if (!MmIsAddressValid((PVOID)callback_addr_org))
+            {
+				return;
+            }
+
+            if (!IsInValidModuleRange((QWORD)callback_addr_org))
+            {
+				return;
+            }
+            
+		}
+
+        InterlockedExchangePointer((PVOID*)callback_addr, (void*)callback_addr_org);
 	}
 }
